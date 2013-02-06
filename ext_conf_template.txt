@@ -1,0 +1,24 @@
+# customsubcategory=facebook=Facebook
+# customsubcategory=google=Google
+# customsubcategory=twitter=Twitter
+
+# cat=facebook; type=boolean; label=Enable Oauth via Facebook
+facebookEnable = 0
+# cat=facebook; type=string; label=App Id
+facebookAppId =
+# cat=facebook; type=string; label=Secret App Token
+facebookAppSecret =
+
+# cat=google; type=boolean; label=Enable Oauth via Google
+googleEnable = 0
+# cat=google; type=string; label=App Id
+googleAppId =
+# cat=google; type=string; label=Secret App Token
+googleAppSecret =
+
+# cat=twitter; type=boolean; label=Enable Oauth via Twitter
+twitterEnable = 0
+# cat=twitter; type=string; label=App Id
+twitterAppId =
+# cat=twitter; type=string; label=Secret App Token
+twitterAppSecret =

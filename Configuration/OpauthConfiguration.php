@@ -1,19 +1,15 @@
 <?php
-/**
- * Opauth basic configuration file to quickly get you started
- * ==========================================================
- * To use: rename to opauth.conf.php and tweak as you like
- * If you require advanced configuration options, refer to opauth.conf.php.advanced
- */
 
 $config = array(
+
 	/**
 	 * Path where Opauth is accessed.
 	 *  - Begins and ends with /
 	 *  - eg. if Opauth is reached via http://example.org/auth/, path is '/auth/'
 	 *  - if Opauth is reached via http://auth.example.org/, path is '/'
 	 */
-	'path' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('opauth') . 'Classes/Opauth/',
+	'path' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('opauth') . 'Authenticate/',
+	'strategy_dir' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Strategies/',
 
 	/**
 	 * Callback URL: redirected to after authentication, successful or otherwise
