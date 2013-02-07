@@ -20,7 +20,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 */
 	public function authenticateAction($strategy) {
 		$action = '';
-		if(strpos($strategy, '/int_callback') !== FALSE) {
+		if(strpos($strategy, '/') !== FALSE) {
 			list($strategy, $action) = explode('/', $strategy);
 		}
 		$this->opauth->setStrategy($strategy);
