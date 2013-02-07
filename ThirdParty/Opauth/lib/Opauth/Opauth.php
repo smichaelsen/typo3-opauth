@@ -145,7 +145,7 @@ class Opauth{
 	/**
 	 * Load strategies from user-input $config
 	 */	
-	private function loadStrategies(){
+	protected function loadStrategies(){
 		if (isset($this->env['Strategy']) && is_array($this->env['Strategy']) && count($this->env['Strategy']) > 0){
 			foreach ($this->env['Strategy'] as $key => $strategy){
 				if (!is_array($strategy)){

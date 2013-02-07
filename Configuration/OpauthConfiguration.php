@@ -1,6 +1,7 @@
 <?php
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-$config = array(
+return array(
 
 	/**
 	 * Path where Opauth is accessed.
@@ -8,8 +9,9 @@ $config = array(
 	 *  - eg. if Opauth is reached via http://example.org/auth/, path is '/auth/'
 	 *  - if Opauth is reached via http://auth.example.org/, path is '/'
 	 */
-	'path' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('opauth') . 'Authenticate/',
-	'strategy_dir' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Strategies/',
+	'path' => ExtensionManagementUtility::siteRelPath('opauth') . 'Authenticate/',
+	'strategy_dir' => ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Strategies/',
+	'lib_dir' => ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Opauth/lib/Opauth/',
 
 	/**
 	 * Callback URL: redirected to after authentication, successful or otherwise

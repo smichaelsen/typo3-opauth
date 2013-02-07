@@ -1,6 +1,7 @@
 <?php
 namespace T3SEO\Opauth\Controller;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class UserSetupModuleController {
 
 	/**
@@ -50,8 +51,9 @@ class UserSetupModuleController {
 	 * @return string
 	 */
 	public function jsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
+
 		$jsCode = '<script src="contrib/jquery/jquery-1.8.2.js" type="text/javascript"></script>';
-		$jsCode .= '<script src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('opauth') . 'Resources/Public/Javascript/setupmodule.js" type="text/javascript"></script>';
+		$jsCode .= '<script src="' . ExtensionManagementUtility::extRelPath('opauth') . 'Resources/Public/Javascript/setupmodule.js" type="text/javascript"></script>';
 		return $jsCode;
 	}
 
