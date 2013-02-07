@@ -24,6 +24,7 @@ class UserSetupModuleController {
 	/**
 	 * @param array $parameters
 	 * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parent
+	 * @return string
 	 */
 	public function renderFieldsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
 		$content = '';
@@ -37,10 +38,21 @@ class UserSetupModuleController {
 				$this->extensionConfiguration[$strategy . 'AppSecret'] // strategy has App secret
 			) {
 				$content .= '<h3>' . ucfirst($strategy) . '</h3>';
-				$content .= '<a target="_blank" href="http://localhost/blog/typo3/ajax.php?ajaxID=opauth&pluginName=ajaxAutofix&controllerName=SetupModule&actionName=autofix&arguments%5Bstrategy%5D=' . urlencode($strategy) . '">Authenticate with ' . ucfirst($strategy) .'</a>';
+				$content .= '<a href="#" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
 			}
 		}
 		return $content;
+	}
+
+	/**
+	 * @param array $parameters
+	 * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parent
+	 * @return string
+	 */
+	public function jsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
+		$jsCode = '<script src="contrib/jquery/jquery-1.8.2.js" type="text/javascript"></script>';
+		$jsCode .= '<script src="' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('opauth') . 'Resources/Public/Javascript/setupmodule.js" type="text/javascript"></script>';
+		return $jsCode;
 	}
 
 }
