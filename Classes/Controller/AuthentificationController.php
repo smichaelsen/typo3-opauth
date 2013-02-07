@@ -19,20 +19,13 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @param string $strategy
 	 */
 	public function authenticateAction($strategy) {
+		$action = '';
 		if(strpos($strategy, '/int_callback') !== FALSE) {
-			$this->forward('callback');
+			list($strategy, $action) = explode('/', $strategy);
 		}
 		$this->opauth->setStrategy($strategy);
+		$this->opauth->setAction($action);
 		$this->opauth->run();
-	}
-
-	/**
-	 * @param string $strategy
-	 */
-	public function callbackAction($strategy) {
-		$this->opauth->setStrategy('callback');
-		$this->opauth->run();
-		die('callback!');
 	}
 
 }

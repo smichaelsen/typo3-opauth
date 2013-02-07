@@ -69,6 +69,13 @@ class Opauth extends \Opauth implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->env['params']['strategy'] = $strategy;
 	}
 
+	/**
+	 * @param string $action
+	 */
+	public function setAction($action) {
+		$this->env['params']['action'] = $action;
+	}
+
 	public function run() {
 		$this->loadStrategies();
 		parent::run();
