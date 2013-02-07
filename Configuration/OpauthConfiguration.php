@@ -1,6 +1,14 @@
 <?php
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-$config = array(
+$currentExtensionConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['opauth']);
+
+$absolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/ajax.php?ajaxID=opauth&pluginName=authentification&controllerName=Authentification&actionName=authenticate&arguments[strategy]=';
+$host = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+$relativePath = substr($absolutePath, strlen($host));
+
+return array(
 
 	/**
 	 * Path where Opauth is accessed.
@@ -8,13 +16,16 @@ $config = array(
 	 *  - eg. if Opauth is reached via http://example.org/auth/, path is '/auth/'
 	 *  - if Opauth is reached via http://auth.example.org/, path is '/'
 	 */
-	'path' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath('opauth') . 'Authenticate/',
-	'strategy_dir' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Strategies/',
+	'path' => $relativePath,
+	'strategy_dir' => ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Strategies/',
+	'lib_dir' => ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Opauth/lib/Opauth/',
 
 	/**
 	 * Callback URL: redirected to after authentication, successful or otherwise
 	 */
-	'callback_url' => '{path}callback.php',
+	'callback_url' => '{path}callback',
+
+	'callback_transport' => 'get',
 
 	/**
 	 * A random string used for signing of $auth response.
@@ -29,8 +40,8 @@ $config = array(
 		// Define strategies and their respective configs here
 
 		'Facebook' => array(
-			'app_id' => 'YOUR APP ID',
-			'app_secret' => 'YOUR APP SECRET'
+			'app_id' => $currentExtensionConfig['facebookAppId'],
+			'app_secret' => $currentExtensionConfig['facebookAppSecret']
 		),
 
 		'Google' => array(
