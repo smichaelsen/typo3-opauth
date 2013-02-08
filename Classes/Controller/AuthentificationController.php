@@ -6,13 +6,12 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 
 	/**
 	 * @var \T3SEO\Opauth\Opauth
-	 * @inject
 	 */
 	protected $opauth;
 
 	public function initializeAction() {
 		$configuration = include(ExtensionManagementUtility::extPath('opauth') . 'Configuration/OpauthConfiguration.php');
-		$this->opauth->setConfig($configuration);
+		$this->opauth = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('T3SEO\\Opauth\\Opauth', $configuration, FALSE);
 	}
 
 	/**
