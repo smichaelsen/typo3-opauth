@@ -81,7 +81,7 @@ class OpauthStrategy {
 		/**
 		 * Additional helpful values
 		 */
-		$this->strategy['path_to_strategy'] = $this->env['path'].$this->strategy['strategy_url_name'].'/';
+		$this->strategy['path_to_strategy'] = $this->env['path'].$this->strategy['strategy_url_name'] . urlencode('/');
 		$this->strategy['complete_url_to_strategy'] = $this->env['host'].$this->strategy['path_to_strategy'];
 		
 
