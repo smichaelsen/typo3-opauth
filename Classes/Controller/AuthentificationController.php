@@ -25,7 +25,16 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 		}
 		$this->opauth->setStrategy($strategy);
 		$this->opauth->setAction($action);
+		if($strategy == 'callback') {
+			$this->forward('callback');
+		}
 		$this->opauth->run();
+	}
+
+	public function callbackAction() {
+		$response = $this->opauth->getResponse();
+		// @todo: save the user token etc here
+		$this->redirectToUri(ExtensionManagementUtility::extRelPath('opauth') . 'Resources/Public/Html/popupclose.html');
 	}
 
 }
