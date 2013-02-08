@@ -34,7 +34,12 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	public function callbackAction() {
 		$response = $this->opauth->getResponse();
 		// @todo: save the user token etc here
-		$this->redirectToUri(ExtensionManagementUtility::extRelPath('opauth') . 'Resources/Public/Html/popupclose.html');
+		$this->closePopup();
+	}
+
+	public function closePopup() {
+		echo '<html><head><title>Authentication success</title></head><body onload="opener.console.log(\'hi, im the popup and im finished\');window.close();"></body></html>';
+		die();
 	}
 
 }
