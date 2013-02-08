@@ -19,6 +19,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @param string $strategy
 	 */
 	public function authenticateAction($strategy) {
+		$strategy = rtrim($strategy, '/');
 		$action = '';
 		if(strpos($strategy, '/') !== FALSE) {
 			list($strategy, $action) = explode('/', $strategy);

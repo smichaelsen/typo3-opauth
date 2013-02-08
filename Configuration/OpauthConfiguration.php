@@ -25,7 +25,7 @@ return array(
 	 */
 	'callback_url' => '{path}callback',
 
-	'callback_transport' => 'get',
+	'callback_transport' => 'session',
 
 	/**
 	 * A random string used for signing of $auth response.
