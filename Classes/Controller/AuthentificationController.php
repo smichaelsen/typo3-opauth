@@ -31,6 +31,9 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 		$this->opauth->run();
 	}
 
+	/**
+	 *
+	 */
 	public function callbackAction() {
 		$response = $this->opauth->getResponse();
 		// @todo: save the user token etc here
