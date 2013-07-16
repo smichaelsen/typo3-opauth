@@ -45,13 +45,13 @@ return array(
 		),
 
 		'Google' => array(
-			'client_id' => 'YOUR CLIENT ID',
-			'client_secret' => 'YOUR CLIENT SECRET'
+			'client_id' => $currentExtensionConfig['googleClientId'],
+			'client_secret' => $currentExtensionConfig['googleClientSecret'],
 		),
 
 		'Twitter' => array(
-			'key' => 'YOUR CONSUMER KEY',
-			'secret' => 'YOUR CONSUMER SECRET'
+			'key' => $currentExtensionConfig['twitterConsumerKey'],
+			'secret' => $currentExtensionConfig['twitterConsumerSecret'],
 		),
 
 	),
