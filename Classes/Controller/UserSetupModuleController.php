@@ -22,6 +22,8 @@ class UserSetupModuleController {
 		$this->extensionConfiguration = $configurationUtility->convertValuedToNestedConfiguration($nestedConfiguration);
 	}
 
+
+
 	/**
 	 * @param array $parameters
 	 * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parent
@@ -29,7 +31,7 @@ class UserSetupModuleController {
 	 */
 	public function renderFieldsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
 		$content = '';
-		$strategiesToCheck = 'Facebook, Google, Twitter';
+		$strategiesToCheck = $this->extensionConfiguration['enableStrategies'];
 
 		$strategiesToCheckArray = array_map('strtolower', \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $strategiesToCheck));
 		foreach($strategiesToCheckArray as $strategy) {
