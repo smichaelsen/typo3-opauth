@@ -25,7 +25,12 @@ return array(
 	 */
 	'callback_url' => '{path}callback',
 
-	'callback_transport' => 'post',
+	'callback_transport' => $currentExtensionConfig['callbackTransport'],
+
+	/**
+	 * Debug mode
+	 */
+	'debug' => $currentExtensionConfig['enableDebug'],
 
 	/**
 	 * A random string used for signing of $auth response.

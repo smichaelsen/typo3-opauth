@@ -1,5 +1,5 @@
 <?php
-namespace T3SEO\Opauth\Utility;
+namespace Butenko\OAuth\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -11,7 +11,7 @@ class AjaxDispatcher {
 	/**
 	 * @var string
 	 */
-	protected $vendorName = 'T3SEO';
+	protected $vendorName = 'Butenko';
 
 	/**
 	 * @var string

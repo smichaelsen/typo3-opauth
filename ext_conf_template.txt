@@ -3,8 +3,20 @@
 # customsubcategory=google=Google
 # customsubcategory=twitter=Twitter
 
+# cat=settings; type=boolean; label=Backend: Enable OAuth2 authentication for the backend.
+enableBE = 0
+
+# cat=settings; type=boolean; label=Frontend: Enable OAuth2 authentication for the frontend.
+enableFE = 0
+
 # cat=settings; type=string; label=List of enabled strategies
 enableStrategies = Facebook,Google,Twitter
+
+# cat=settings; type=string; label=Callback Transport: Available: session, post, get. Read more https://github.com/opauth/opauth/wiki/Opauth-configuration
+callbackTransport = post
+
+# cat=settings; type=boolean; label=Enable Debug Mode.
+enableDebug = 0
 
 # cat=facebook; type=boolean; label=Enable OAuth2 via Facebook
 facebookEnable = 0
