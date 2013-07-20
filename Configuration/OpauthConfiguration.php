@@ -3,10 +3,17 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 $currentExtensionConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['opauth']);
+$extPath = ExtensionManagementUtility::extPath('opauth');
 
 $absolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/ajax.php?ajaxID=opauth&pluginName=authentification&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
 $host = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 $relativePath = substr($absolutePath, strlen($host));
+
+$enableStrategies = $currentExtensionConfig['enableStrategies'];
+
+$strategy_dir = $extPath . ;
+$strategies_in_dir = scandir($strategy_dir);
+
 
 return array(
 
@@ -17,14 +24,13 @@ return array(
 	 *  - if Opauth is reached via http://auth.example.org/, path is '/'
 	 */
 	'path' => $relativePath,
-	'strategy_dir' => ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Strategies/',
-	'lib_dir' => ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Opauth/lib/Opauth/',
+	'strategy_dir' => $extPath . 'ThirdParty/Strategies/',
+	'lib_dir' =>  $extPath . 'ThirdParty/Opauth/lib/Opauth/',
 
 	/**
 	 * Callback URL: redirected to after authentication, successful or otherwise
 	 */
 	'callback_url' => '{path}callback',
-
 	'callback_transport' => $currentExtensionConfig['callbackTransport'],
 
 	/**
