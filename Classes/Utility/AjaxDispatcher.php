@@ -1,5 +1,5 @@
 <?php
-namespace Butenko\OAuth\Utility;
+namespace Butenko\Opauth\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

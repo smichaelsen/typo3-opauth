@@ -1,5 +1,5 @@
 <?php
-namespace Butenko\OAuth;
+namespace Butenko\Opauth;
 
 require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('opauth') . 'ThirdParty/Opauth/lib/Opauth/Opauth.php');
 
