@@ -1,17 +1,17 @@
 <?php
-namespace Butenko\OAuth\Controller;
+namespace Butenko\Opauth\Controller;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * @var \Butenko\OAuth\Opauth
+	 * @var \Butenko\Opauth\Opauth
 	 */
 	protected $opauth;
 
 	public function initializeAction() {
 		$configuration = include(ExtensionManagementUtility::extPath('opauth') . 'Configuration/OpauthConfiguration.php');
-		$this->opauth = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Butenko\\OAuth\\Opauth', $configuration, FALSE);
+		$this->opauth = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Butenko\\Opauth\\Opauth', $configuration, FALSE);
 	}
 
 	/**
@@ -36,7 +36,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 */
 	public function callbackAction() {
 		$response = $this->opauth->getResponse();
-		//$this->opauth->debug(!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason));
 
 		if (array_key_exists('error', $response))
         {
@@ -57,7 +56,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
                 echo '<strong style="color: green;">OK: </strong>Auth response is validated.'."<br>\n";
 
                 $GLOBALS['BE_USER']->uc['connectedStrategies'][$response['auth']['provider']] = 1;
-
                 $GLOBALS['BE_USER']->overrideUC();
                 $GLOBALS['BE_USER']->writeUC();
             }

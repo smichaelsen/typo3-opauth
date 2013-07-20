@@ -1,0 +1,15 @@
+.opauth {
+    padding-left: 20px;
+}
+
+.t3-login-opauth {
+    font-size: 16px;
+}
+
+body#typo3-index-php .t3-login-opauth {
+    padding: 0;
+    margin: 5px 0 0;
+    position: relative;
+}
+
+

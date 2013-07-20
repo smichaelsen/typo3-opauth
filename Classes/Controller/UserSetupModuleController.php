@@ -1,5 +1,5 @@
 <?php
-namespace Butenko\OAuth\Controller;
+namespace Butenko\Opauth\Controller;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class UserSetupModuleController {
@@ -32,7 +32,7 @@ class UserSetupModuleController {
 	public function renderFieldsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
 		$content = '';
 		$strategiesToCheck = $this->extensionConfiguration['enableStrategies'];
-		$connectedStrategies = array_map('strtolower', $GLOBALS['BE_USER']->uc['connectedStrategies']);
+		$connectedStrategies = $GLOBALS['BE_USER']->uc['connectedStrategies'];
 
 		$strategiesToCheckArray = array_map('strtolower', \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $strategiesToCheck));
 		foreach($strategiesToCheckArray as $strategy) {
@@ -41,12 +41,11 @@ class UserSetupModuleController {
 				$this->extensionConfiguration[$strategy . 'AppId'] && // strategy has App Id
 				$this->extensionConfiguration[$strategy . 'AppSecret'] // strategy has App secret
 			) {
+				$content .= '<h3>' . ucfirst($strategy) . '</h3>';
 
 				if(array_key_exists(ucfirst($strategy), $connectedStrategies)) {
-					$content .= '<h3>' . ucfirst($strategy) . '</h3>';
 					$content .= '<span style="color: green;">Already connected</span> [<a href="">disconnect</a>]';
 				} else {
-					$content .= '<h3>' . ucfirst($strategy) . '</h3>';
 					$content .= '<a href="#" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
 				}
 			}
