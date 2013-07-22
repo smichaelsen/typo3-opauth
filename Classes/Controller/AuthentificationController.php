@@ -2,6 +2,7 @@
 namespace Butenko\Opauth\Controller;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
@@ -9,10 +10,29 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 */
 	protected $opauth;
 
+    /**
+     * @var \Butenko\Opauth\Service\Authentification
+     */
+    protected $opauthService;
+
+    /**
+     * @param \Butenko\Opauth\Service\Authentification $opauthService
+     */
+    public function injectAuthService(\Butenko\Opauth\Service\Authentification $opauthService) {
+        $this->opauthService = $opauthService;
+    }
+
 	public function initializeAction() {
 		$configuration = include(ExtensionManagementUtility::extPath('opauth') . 'Configuration/OpauthConfiguration.php');
 		$this->opauth = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Butenko\\Opauth\\Opauth', $configuration, FALSE);
 	}
+
+    /**
+     * @param integer $errorCode
+     */
+    public function errorAction($errorCode) {
+
+    }
 
 	/**
 	 * @param string $strategy
@@ -56,6 +76,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
                 echo '<strong style="color: green;">OK: </strong>Auth response is validated.'."<br>\n";
 
                 $GLOBALS['BE_USER']->uc['connectedStrategies'][$response['auth']['provider']] = 1;
+                $GLOBALS['BE_USER']->uc['opauthService'] = $this->opauthService;
                 $GLOBALS['BE_USER']->overrideUC();
                 $GLOBALS['BE_USER']->writeUC();
             }

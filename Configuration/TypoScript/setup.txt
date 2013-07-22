@@ -1,0 +1,17 @@
+OpauthLoginPage = PAGE
+OpauthLoginPage {
+	typeNum = 21071992
+	21071992 = USER_INT
+	21071992 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		extensionName = Opauth
+		pluginName = Authentification
+		vendorName = Butenko
+	}
+}
+
+plugin.tx_opauth.view {
+	templateRootPath = {$plugin.tx_opauth.view.templateRootPath}
+	partialRootPath = {$plugin.tx_opauth.view.partialRootPath}
+	layoutRootPath = {$plugin.tx_opauth.view.layoutRootPath}
+}

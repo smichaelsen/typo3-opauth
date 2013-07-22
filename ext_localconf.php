@@ -1,20 +1,5 @@
 <?php
-if (TYPO3_MODE === 'BE') {
-	// AJAX Extbase Dispatcher
-	$TYPO3_CONF_VARS['BE']['AJAX']['opauth'] = 'Butenko\\Opauth\\Utility\\AjaxDispatcher->initAndDispatch';
-	// Add popup js to user setup module
-	$TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['setupScriptHook']['opauth'] = 'Butenko\\Opauth\\Controller\\UserSetupModuleController->jsAction';
-	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-		'Opauth',
-		'authentification',
-		array(
-			'Authentification' => 'authenticate,callback'
-		)
-	);
-}
-
-
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService($_EXTKEY, 'auth', 'Butenko\\Opauth\\OpauthService',
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService($_EXTKEY, 'auth', 'Butenko\\Opauth\\Service\\Authentification',
 	array(
 		'title' => 'Opauth Authentication',
 		'description' => 'Opauth authentication service for Frontend and Backend',
@@ -25,7 +10,38 @@ if (TYPO3_MODE === 'BE') {
 		'quality' => 50,
 		'os' => '',
 		'exec' => '',
-		'className' => 'Butenko\\Opauth\\OpauthService'
+		'className' => 'Butenko\\Opauth\\Service\\Authentification'
 	)
 );
+
+if (TYPO3_MODE === 'BE') {
+	// AJAX Extbase Dispatcher
+	$TYPO3_CONF_VARS['BE']['AJAX']['opauth'] = 'Butenko\\Opauth\\Utility\\AjaxDispatcher->initAndDispatch';
+	// Add popup js to user setup module
+	$TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['setupScriptHook']['opauth'] = 'Butenko\\Opauth\\Controller\\UserSetupModuleController->jsAction';
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+		'Butenko.' . $_EXTKEY,
+		'Auth',
+		array(
+			'Authentification' => 'authenticate,callback',
+		),
+		array(
+			'Authentification' => 'authenticate,callback',
+		)
+	);
+}
+
+if (TYPO3_MODE === 'FE') {
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+		'Butenko.' . $_EXTKEY,
+		'Auth',
+		array(
+			'Authentification' => 'authenticate,callback',
+		),
+		array(
+			'Authentification' => 'authenticate,callback',
+		)
+	);
+}
+
 ?>

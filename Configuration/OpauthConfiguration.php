@@ -10,8 +10,6 @@ $host = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 $relativePath = substr($absolutePath, strlen($host));
 
 $enableStrategies = $currentExtensionConfig['enableStrategies'];
-
-$strategy_dir = $extPath . ;
 $strategies_in_dir = scandir($strategy_dir);
 
 

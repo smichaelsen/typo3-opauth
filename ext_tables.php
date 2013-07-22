@@ -1,6 +1,8 @@
 <?php
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+$_EXTCONF = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
+
 // Add field to setup module
 $GLOBALS['TYPO3_USER_SETTINGS']['columns']['tx_opauth_strategies'] = array(
 	'type' => 'user',
@@ -9,33 +11,26 @@ $GLOBALS['TYPO3_USER_SETTINGS']['columns']['tx_opauth_strategies'] = array(
 	'userFunc' => 'Butenko\\Opauth\\Controller\\UserSetupModuleController->renderFieldsAction',
 );
 ExtensionManagementUtility::addFieldsToUserSettings('--div--;Authentification Services,tx_opauth_strategies');
-
-$extConf = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
+ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Opauth');
 
 /**
  * Register as backend plugin
  */
-
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-	'Opauth',
-	'authentification',
+	'Butenko.' . $_EXTKEY,
+	'Authentification',
 	'Opauth Authentification'
 );
 
-if (isset($extConf['enableBE']) && (bool)$extConf['enableBE']) {
+ExtensionManagementUtility::addPlugin(array(
+	'LLL:EXT:opauth/locallang_db.xml:tt_content.list_type_pi1',
+	$_EXTKEY . '_pi1',
+	ExtensionManagementUtility::extRelPath($_EXTKEY) . 'ext_icon.gif'
+),'list_type');
 
-    $TBE_STYLES['htmlTemplates']['templates/login.html'] = ExtensionManagementUtility::extPath('opauth') . 'Resources/Private/Templates/Login.html';
-    $TBE_STYLES['stylesheet2'] = ExtensionManagementUtility::extPath('opauth') . 'Resources/Public/Stylesheets/opauth.css';
+if (isset($_EXTCONF['enableBE']) && (bool)$_EXTCONF['enableBE']) {
+
+	$TBE_STYLES['htmlTemplates']['templates/login.html'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
+	$TBE_STYLES['stylesheet2'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Stylesheets/opauth.css';
 }
-
-/**
- * Register as frontend plugin
- */
-
-/*\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-    'Opauth',
-    'authentification',
-    'Opauth Authentification'
-);*/
-
 ?>
