@@ -8,5 +8,4 @@ $(function() {
 			'width=640,height=480,resizable=yes'
 		);
 	});
-    $(document).on('')
 });
