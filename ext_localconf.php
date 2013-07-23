@@ -50,4 +50,5 @@ if (TYPO3_MODE === 'FE') {
 	);
 }
 
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][] = 'Butenko\\Opauth\\UserFunction\\Logoff->logoff';
 ?>
