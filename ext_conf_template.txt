@@ -12,6 +12,12 @@ enableFE = 0
 # cat=settings; type=string; label=List of enabled strategies
 enableStrategies = Facebook,Google,Twitter
 
+# cat=settings; type=int+; label=Auth Priority: maximum 100
+priority = 100
+
+# cat=settings; type=int+; label=Storage Pid: Storage Folder for Frontend Users
+storagePid = 0
+
 # cat=settings; type=string; label=Callback Transport: Available: session, post, get. Read more https://github.com/opauth/opauth/wiki/Opauth-configuration
 callbackTransport = post
 
