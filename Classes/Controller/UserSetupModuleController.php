@@ -43,10 +43,10 @@ class UserSetupModuleController {
 			) {
 				$content .= '<h3>' . ucfirst($strategy) . '</h3>';
 
-				if(array_key_exists(ucfirst($strategy), $connectedStrategies)) {
-					$content .= '<span style="color: green;">Already connected</span> [<a href="">disconnect</a>]';
+				if(array_key_exists($strategy, $connectedStrategies)) {
+					$content .= '<span style="color: green;">Already connected</span> [<a href="#" data-action="disconnect" data-authstrategy="' . $strategy . '">disconnect</a>]';
 				} else {
-					$content .= '<a href="#" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
+					$content .= '<a href="#" data-action="authenticate" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
 				}
 			}
 		}

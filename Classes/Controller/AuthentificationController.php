@@ -74,19 +74,29 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
             else
             {
                 echo '<strong style="color: green;">OK: </strong>Auth response is validated.'."<br>\n";
-
-                $GLOBALS['BE_USER']->uc['connectedStrategies'][$response['auth']['provider']] = 1;
-                $GLOBALS['BE_USER']->uc['opauthService'] = $this->opauthService;
-                $GLOBALS['BE_USER']->overrideUC();
-                $GLOBALS['BE_USER']->writeUC();
+                $this->setConnectedStrategy(strtolower($response['auth']['provider']));
             }
         }
-		//$this->closePopup();
+		$this->closePopup();
 	}
+
+    public function setConnectedStrategy($strategy) {
+        $GLOBALS['BE_USER']->uc['connectedStrategies'][$strategy] = 1;
+        $GLOBALS['BE_USER']->overrideUC();
+        $GLOBALS['BE_USER']->writeUC();
+    }
+
+    public function disconnectAction() {
+        $strategy = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('arguments')['strategy'];
+        unset($GLOBALS['BE_USER']->uc['connectedStrategies'][$strategy]);
+        $GLOBALS['BE_USER']->overrideUC();
+        $GLOBALS['BE_USER']->writeUC();
+        $this->closePopup();
+    }
 
 	public function closePopup() {
 		echo '<html><head><title>Authentication success</title></head><body onload="opener.console.log(\'hi, im the popup and im finished\');window.close();"></body></html>';
-		//die();
+		die();
 	}
 
 }
