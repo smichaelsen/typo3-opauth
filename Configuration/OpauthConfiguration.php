@@ -8,10 +8,7 @@ $extPath = ExtensionManagementUtility::extPath('opauth');
 $absolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/ajax.php?ajaxID=opauth&pluginName=authentification&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
 $host = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 $relativePath = substr($absolutePath, strlen($host));
-
 $enableStrategies = $currentExtensionConfig['enableStrategies'];
-$strategies_in_dir = scandir($strategy_dir);
-
 
 return array(
 
