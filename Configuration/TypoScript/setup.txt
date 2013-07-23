@@ -1,17 +1,15 @@
-OpauthLoginPage = PAGE
-OpauthLoginPage {
-	typeNum = 21071992
-	21071992 = USER_INT
-	21071992 {
-		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
-		extensionName = Opauth
-		pluginName = Authentification
-		vendorName = Butenko
-	}
-}
-
-plugin.tx_opauth.view {
-	templateRootPath = {$plugin.tx_opauth.view.templateRootPath}
-	partialRootPath = {$plugin.tx_opauth.view.partialRootPath}
-	layoutRootPath = {$plugin.tx_opauth.view.layoutRootPath}
+myAjaxPage = PAGE
+myAjaxPage {
+  # you can choose the typeNum arbitrarily, just make it unique
+  typeNum = 21071992
+  # some config to make sure you can use JSON or XML as response and not HTML
+  config {
+    disableAllHeaderCode = 1
+    xhtml_cleaning = 0
+    admPanel = 0
+    debug = 0
+  }
+  # Here you define the class that makes the response
+  10 = USER
+  10.userFunc = \Butenko\Opauth\Controller\Authentification->authenticate
 }
