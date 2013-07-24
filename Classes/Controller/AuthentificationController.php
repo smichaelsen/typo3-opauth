@@ -13,13 +13,13 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	/**
 	 * @var \Butenko\Opauth\Service\Authentification
 	 */
-	protected $opauthService;
+	protected $authService;
 
 	/**
 	 * @param \Butenko\Opauth\Service\Authentification $opauthService
 	 */
-	public function injectAuthService(\Butenko\Opauth\Service\Authentification $opauthService) {
-		$this->opauthService = $opauthService;
+	public function injectAuthService(\Butenko\Opauth\Service\Authentification $authService) {
+		$this->authService = $authService;
 	}
 
 	public function initializeAction() {
@@ -59,24 +59,24 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 
 		if (array_key_exists('error', $response))
 		{
-			echo '<strong style="color: red;">Authentication error: </strong> Opauth returns error auth response.'."<br>\n";
+			throw new \TYPO3\CMS\Core\Exception('Authentication error: Opauth returns error auth response.');
 		}
 		else
 		{
 			if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid']))
 			{
-				echo '<strong style="color: red;">Invalid auth response: </strong>Missing key auth response components.'."<br>\n";
+				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: Missing key auth response components.');
 			}
 			elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason))
 			{
-				echo '<strong style="color: red;">Invalid auth response: </strong>'.$reason.".<br>\n";
+				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: '.$reason);
 			}
 			else
 			{
-				echo '<strong style="color: green;">OK: </strong>Auth response is validated.'."<br>\n";
-				$this->setConnectedStrategy(strtolower($response['auth']['provider']));
+				// Action to auth
 			}
 		}
+
 		$this->closePopup();
 	}
 
