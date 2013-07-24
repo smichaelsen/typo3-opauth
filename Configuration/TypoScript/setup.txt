@@ -5,11 +5,11 @@ myAjaxPage {
   # some config to make sure you can use JSON or XML as response and not HTML
   config {
     disableAllHeaderCode = 1
+    additionalHeaders = Content-type:application/json
     xhtml_cleaning = 0
     admPanel = 0
     debug = 0
   }
   # Here you define the class that makes the response
-  10 = USER
-  10.userFunc = \Butenko\Opauth\Controller\Authentification->authenticate
+  10 < \Butenko\Opauth\Controller\Authentification->authentificate
 }
