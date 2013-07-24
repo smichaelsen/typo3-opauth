@@ -30,13 +30,15 @@ facebookEnable = 0
 facebookAppId =
 # cat=facebook; type=string; label=Secret App Token
 facebookAppSecret =
+# cat=facebook; type=string; label=Scope
+facebookScope = email
 
 # cat=google; type=boolean; label=Enable OAuth2 via Google
 googleEnable = 0
-# cat=google; type=string; label=App Id
-googleAppId =
-# cat=google; type=string; label=Secret App Token
-googleAppSecret =
+# cat=google; type=string; label=Client Id
+googleClientId =
+# cat=google; type=string; label=Client App Secret
+googleClientSecret =
 
 # cat=twitter; type=boolean; label=Enable OAuth2 via Twitter
 twitterEnable = 0
