@@ -102,7 +102,7 @@ class AjaxDispatcher {
 	 *
 	 */
 	protected function setRequestArgumentsFromGetPost() {
-		$validArguments = GeneralUtility::trimExplode(',', 'extensionName, pluginName, controllerName, actionName, arguments, vendorName');
+		$validArguments = GeneralUtility::trimExplode(',', 'extensionName, pluginName, controllerName, actionName, arguments, vendorName, type');
 		foreach ($validArguments as $argument) {
 			if (GeneralUtility::_GP($argument) !== NULL) {
 				$this->requestArguments[$argument] = GeneralUtility::_GP($argument);
