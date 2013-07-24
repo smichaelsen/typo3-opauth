@@ -2,6 +2,7 @@
 namespace Butenko\Opauth\Controller;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 class UserSetupModuleController {
 
 	/**
