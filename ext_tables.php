@@ -11,7 +11,6 @@ $GLOBALS['TYPO3_USER_SETTINGS']['columns']['tx_opauth_strategies'] = array(
 	'userFunc' => 'Butenko\\Opauth\\Controller\\UserSetupModuleController->renderFieldsAction',
 );
 ExtensionManagementUtility::addFieldsToUserSettings('--div--;Authentification Services,tx_opauth_strategies');
-ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Opauth');
 
 /**
  * Register as backend plugin
