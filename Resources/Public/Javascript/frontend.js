@@ -4,7 +4,7 @@ $(function() {
         var url = jQuery.param({
             eID: "opauth",
             extensionName: "Opauth",
-            pluginName: "pi1",
+            pluginName: "Auth",
             controllerName: "Authentification",
             actionName: el.data('action'),
             arguments: {

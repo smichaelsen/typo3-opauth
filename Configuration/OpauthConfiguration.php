@@ -4,10 +4,13 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 $currentExtensionConfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['opauth']);
 $extPath = ExtensionManagementUtility::extPath('opauth');
-
 $absolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/ajax.php?ajaxID=opauth&pluginName=authentification&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
 $host = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 $relativePath = substr($absolutePath, strlen($host));
+$frontendAbsolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'index.php?eID=opauth&extensionName=Opauth&pluginName=Auth&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
+$frontendRelativePath = substr($frontendAbsolutePath, strlen($host));
+
+//throw new \TYPO3\CMS\Core\Exception('relativePath: ' . $relativePath);
 $enableStrategies = $currentExtensionConfig['enableStrategies'];
 
 return array(
@@ -18,7 +21,7 @@ return array(
 	 *  - eg. if Opauth is reached via http://example.org/auth/, path is '/auth/'
 	 *  - if Opauth is reached via http://auth.example.org/, path is '/'
 	 */
-	'path' => $relativePath,
+	'path' => $frontendRelativePath,
 	'strategy_dir' => $extPath . 'ThirdParty/Strategies/',
 	'lib_dir' =>  $extPath . 'ThirdParty/Opauth/lib/Opauth/',
 
@@ -47,7 +50,8 @@ return array(
 
 		'Facebook' => array(
 			'app_id' => $currentExtensionConfig['facebookAppId'],
-			'app_secret' => $currentExtensionConfig['facebookAppSecret']
+			'app_secret' => $currentExtensionConfig['facebookAppSecret'],
+			'scope' => $currentExtensionConfig['facebookScope'],
 		),
 
 		'Google' => array(
