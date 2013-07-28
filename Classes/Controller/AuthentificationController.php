@@ -81,11 +81,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 		$this->redirectToUri($url, 0, 303);
 	}
 
-	public function closePopup() {
-		echo '<html><head><title>Authentication success</title></head><body onload="opener.console.log(\'hi, im the popup and im finished\');window.close();"></body></html>';
-		die();
-	}
-
 }
 
 ?>
