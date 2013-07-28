@@ -7,7 +7,7 @@ $extPath = ExtensionManagementUtility::extPath('opauth');
 $absolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/ajax.php?ajaxID=opauth&pluginName=authentification&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
 $host = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
 $relativePath = substr($absolutePath, strlen($host));
-$frontendAbsolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'index.php?eID=opauth&extensionName=Opauth&pluginName=Auth&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
+$frontendAbsolutePath = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'index.php?eID=opauth&extensionName=Opauth&logintype=login&pluginName=Auth&controllerName=Authentification&actionName=authenticate&arguments%5Bstrategy%5D=';
 $frontendRelativePath = substr($frontendAbsolutePath, strlen($host));
 
 //throw new \TYPO3\CMS\Core\Exception('relativePath: ' . $relativePath);
