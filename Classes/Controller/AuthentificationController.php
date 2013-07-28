@@ -11,14 +11,19 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	protected $opauth;
 
 	/**
-	 * @var \Butenko\Opauth\Service\Authentification
+	 * @var \Butenko\Opauth\OpauthService
 	 */
 	protected $authService;
 
 	/**
-	 * @param \Butenko\Opauth\Service\Authentification $opauthService
+	 * @var array
 	 */
-	public function injectAuthService(\Butenko\Opauth\Service\Authentification $authService) {
+	protected $response = array();
+
+	/**
+	 * @param \Butenko\Opauth\OpauthService $opauthService
+	 */
+	public function injectAuthService(\Butenko\Opauth\OpauthService $authService) {
 		$this->authService = $authService;
 	}
 
@@ -55,43 +60,25 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 *
 	 */
 	public function callbackAction() {
-		$response = $this->opauth->getResponse();
+		$this->response = $this->opauth->getResponse();
 
-		if (array_key_exists('error', $response))
-		{
+		if (array_key_exists('error', $this->response)) {
 			throw new \TYPO3\CMS\Core\Exception('Authentication error: Opauth returns error auth response.');
-		}
-		else
-		{
-			if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid']))
-			{
+		} else {
+			if (empty($this->response['auth']) || empty($this->response['timestamp']) || empty($this->response['signature']) || empty($this->response['auth']['provider']) || empty($this->response['auth']['uid'])) {
 				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: Missing key auth response components.');
-			}
-			elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason))
-			{
+			} elseif (!$this->opauth->validate(sha1(print_r($this->response['auth'], true)), $this->response['timestamp'], $this->response['signature'], $reason)) {
 				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: '.$reason);
-			}
-			else
-			{
-				// Action to auth
+			} else {
+				$this->authService->getUserInformation($this->response['auth']['info']);
+				$this->forward('final');
 			}
 		}
-
-		$this->closePopup();
 	}
 
-	public function setConnectedStrategy($strategy) {
-		$GLOBALS['BE_USER']->uc['connectedStrategies'][$strategy] = 1;
-		$GLOBALS['BE_USER']->overrideUC();
-		$GLOBALS['BE_USER']->writeUC();
-	}
-
-	public function disconnectAction() {
-		$strategy = \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('arguments')['strategy'];
-		unset($GLOBALS['BE_USER']->uc['connectedStrategies'][$strategy]);
-		$GLOBALS['BE_USER']->overrideUC();
-		$GLOBALS['BE_USER']->writeUC();
-		$this->closePopup();
+	public function finalAction() {
+		$url = $this->authService->getFinalUrl();
+		$this->redirectToUri($url, 0, 303);
 	}
 
 	public function closePopup() {
