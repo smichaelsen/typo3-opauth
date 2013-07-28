@@ -21,6 +21,9 @@ storagePid = 0
 # cat=settings; type=string; label=Callback Transport: Available: session, post, get. Read more https://github.com/opauth/opauth/wiki/Opauth-configuration
 callbackTransport = post
 
+# cat=settings; type=string; label=Callback address: Must match the URL registered with returnUrl. Note that the typeNum comes from Configuration/TypoScript/setup.txt which must be included as static template.
+returnUrl = http://{domain}/?type=21071992
+
 # cat=settings; type=boolean; label=Enable Debug Mode.
 enableDebug = 0
 
