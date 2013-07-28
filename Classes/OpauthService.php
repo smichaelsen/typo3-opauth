@@ -136,6 +136,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 	 * @return void
 	 */
 	public function getBackendUserInformation($response) {
+		$userInfo = $response;
 		$username = substr($userInfo['email'], 0, strpos($userInfo['email'], '@'));
 		$userInfo['email'] = filter_var($userInfo['email'], FILTER_SANITIZE_EMAIL);
 		$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'be_users', "email = '" . $userInfo['email'] . "'");
@@ -145,7 +146,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 		if (!$record) {
 			// user has no DB record (yet), create one using defaults registered in extension config
 			// password is not important, username is set to the user's default email address
-			// fist though, we need to fetch that information from Google
+			// fist though, we need to fetch that information.
 			$record = array(
 				'username' => $username,
 				'password' => substr(sha1($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . (microtime(TRUE) * time())), -8),
@@ -175,7 +176,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 		if (!$record) {
 				// user has no DB record (yet), create one using defaults registered in extension config
 				// password is not important, username is set to the user's default email address
-				// fist though, we need to fetch that information from Google
+				// fist though, we need to fetch that information.
 			$record = array(
 				'username' => $userInfo['email'],
 				'password' => substr(sha1($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . (microtime(TRUE) * time())), -8),
@@ -184,7 +185,6 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 				'disable' => '0',
 				'deleted' => '0',
 				'pid' => $this->config['storagePid'],
-				'usergroup' => $this->config['addUsersToGroups'],
 				'tstamp' => time(),
 			);
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_users', $record);
