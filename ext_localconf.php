@@ -24,7 +24,7 @@ $_EXTCONF = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY])
 
 if (TYPO3_MODE === 'BE') {
 	//
-	$TYPO3_CONF_VARS['BE']['loginSecurityLevel'] = 'normal';
+	//$TYPO3_CONF_VARS['BE']['loginSecurityLevel'] = 'normal';
 	// AJAX Extbase Dispatcher
 	$TYPO3_CONF_VARS['BE']['AJAX'][$_EXTKEY] = 'Butenko\\Opauth\\Utility\\AjaxDispatcher->initAndDispatch';
 	// Add popup js to user setup module
@@ -43,9 +43,9 @@ if (TYPO3_MODE === 'BE') {
 	)
 );
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['extTablesInclusion-PostProcessing'];
 // Add eID dispatcher
-$TYPO3_CONF_VARS['FE']['eID_include'][$_EXTKEY] = 'EXT:opauth/Classes/Utility/EidDispatcher.php';
+$GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:opauth/Classes/Utility/EidDispatcher.php';
 // Add form hook
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['postUserLookUp'][] = 'Butenko\\Opauth\\Hooks\\UserAuthHook->postUserLookUp';
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][] = 'Butenko\\Opauth\\UserFunction\\Logoff->logoff';
 ?>
