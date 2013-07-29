@@ -27,6 +27,9 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 		$this->authService = $authService;
 	}
 
+	/**
+	 * @return void
+	 */
 	public function initializeAction() {
 		$configuration = include(ExtensionManagementUtility::extPath('opauth') . 'Configuration/OpauthConfiguration.php');
 		$this->opauth = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Butenko\\Opauth\\Opauth', $configuration, FALSE);
@@ -59,6 +62,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	/**
 	 * Callback action with user data
 	 * redirect to final url
+	 * @return void
 	 */
 	public function callbackAction() {
 		$this->response = $this->opauth->getResponse();
@@ -80,6 +84,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 
 	/**
 	 * Final Action to redirect user to finalUrl
+	 * @return void
 	 */
 	public function finalAction() {
 		$finalUrl = $this->authService->getFinalUrl();

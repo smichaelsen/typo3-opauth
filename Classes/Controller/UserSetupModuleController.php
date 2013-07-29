@@ -15,6 +15,9 @@ class UserSetupModuleController {
 	 */
 	protected $extensionConfiguration;
 
+	/**
+	 * Construct
+	 */
 	public function __construct() {
 		$this->objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 		/** @var $configurationUtility \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility */

@@ -94,17 +94,20 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	 * @param \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication $parentObject Calling object
 	 * @return void
 	 */
-
-	public function responseFromController($response) {
-		$this->response = $response;
-	}
-
 	public function initAuth($subType, array $loginData, array $authInfo, \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication &$parentObject) {
 		// Store login and authetication data
 		$subType = $this->mode;
 		$this->loginData = $loginData;
 		$this->authInfo = $authInfo;
 		$this->parentObject = $parentObject;
+	}
+
+	/**
+	 * @param string $response: Response from auth service in controller
+	 * @return void
+	 */
+	public function responseFromController($response) {
+		$this->response = $response;
 	}
 
 	/**
@@ -268,6 +271,17 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 			$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'fe_users', 'uid = ' . intval($uid));
 		}
 		$_SESSION[$this->sessionKey]['user']['fe'] = $record;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFinalUrl() {
+		if ($this->scope === 'be') {
+			return str_replace(PATH_site, '', PATH_typo3);
+		} else {
+			return $this->config['finalUrl'];
+		}
 	}
 }
 ?>
