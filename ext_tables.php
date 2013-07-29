@@ -12,6 +12,7 @@ $GLOBALS['TYPO3_USER_SETTINGS']['columns']['tx_opauth_strategies'] = array(
 );
 ExtensionManagementUtility::addFieldsToUserSettings('--div--;Authentification Services,tx_opauth_strategies');
 ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Opauth');
+
 /**
  * Register as backend plugin
  */
@@ -21,6 +22,7 @@ ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 
 	'Opauth Authentification'
 );
 
+// Overwrite backend login form template
 if (isset($_EXTCONF['enableBE']) && (bool)$_EXTCONF['enableBE']) {
 	$TBE_STYLES['htmlTemplates']['templates/login.html'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
 	$TBE_STYLES['stylesheet2'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Stylesheets/opauth.css';

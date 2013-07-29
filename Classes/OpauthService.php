@@ -22,14 +22,49 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	 */
 	protected $scope = 'fe';
 
-	public $pObj;
+	/**
+	 * @var \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication
+	 */
+	public $parentObject;
+
+	/**
+	 * @var string
+	 */
 	public $mode;
+
+	/**
+	 * @var array
+	 */
 	public $login = array();
+
+	/**
+	 * @var array
+	 */
 	public $authInfo = array();
+
+	/**
+	 * @var array
+	 */
 	public $db_user = array();
+
+	/**
+	 * @var array
+	 */
 	public $db_groups = array();
+
+	/**
+	 * @var boolean
+	 */
 	public $writeAttemptLog = FALSE;
+
+	/**
+	 * @var boolean
+	 */
 	public $writeDevLog = FALSE;
+
+	/**
+	 * @var array
+	 */
 	public $response;
 
 	/**
@@ -128,8 +163,6 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 		return $this->config['errorUrl'];
 	}
 
-
-
 	/**
 	 * @return array User Array or FALSE
 	 */
@@ -153,7 +186,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 		}
 	}
 
-		/**
+	/**
 	 * @param mixed $user
 	 */
 	public function authUser(&$user) {

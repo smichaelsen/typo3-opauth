@@ -23,8 +23,6 @@ class UserSetupModuleController {
 		$this->extensionConfiguration = $configurationUtility->convertValuedToNestedConfiguration($nestedConfiguration);
 	}
 
-
-
 	/**
 	 * @param array $parameters
 	 * @param \TYPO3\CMS\Setup\Controller\SetupModuleController $parent

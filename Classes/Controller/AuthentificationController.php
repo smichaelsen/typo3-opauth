@@ -36,7 +36,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @param integer $errorCode
 	 */
 	public function errorAction($errorCode) {
-
+		throw new \TYPO3\CMS\Core\Exception('Error action, with code: ' . $errorCode);
 	}
 
 	/**
@@ -57,7 +57,8 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	}
 
 	/**
-	 *
+	 * Callback action with user data
+	 * redirect to final url
 	 */
 	public function callbackAction() {
 		$this->response = $this->opauth->getResponse();
@@ -70,15 +71,19 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 			} elseif (!$this->opauth->validate(sha1(print_r($this->response['auth'], true)), $this->response['timestamp'], $this->response['signature'], $reason)) {
 				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: '.$reason);
 			} else {
-				$this->authService->getUserInformation($this->response['auth']['info']);
+				$this->authService->responseFromController($this->response);
+				$this->authService->getUserInformation();
 				$this->forward('final');
 			}
 		}
 	}
 
+	/**
+	 * Final Action to redirect user to finalUrl
+	 */
 	public function finalAction() {
-		$url = $this->authService->getFinalUrl();
-		$this->redirectToUri($url, 0, 303);
+		$finalUrl = $this->authService->getFinalUrl();
+		$this->redirectToUri($finalUrl, 0, 303);
 	}
 
 }

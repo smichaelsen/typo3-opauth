@@ -3,8 +3,10 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+// Unserialize extension configuration
 $_EXTCONF = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY]);
 
+// Register opauth as authentification service
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService($_EXTKEY, 'auth', 'Butenko\\Opauth\\OpauthService',
 	array(
 		'title' => 'Opauth Authentication',
@@ -27,6 +29,7 @@ if (TYPO3_MODE === 'BE') {
 	$TYPO3_CONF_VARS['SC_OPTIONS']['ext/setup/mod/index.php']['setupScriptHook'][$_EXTKEY] = 'Butenko\\Opauth\\Controller\\UserSetupModuleController->jsAction';
 }
 
+// Configure plugin for backend and frontend
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
 	$_EXTKEY,
 	'Auth',
@@ -38,6 +41,9 @@ if (TYPO3_MODE === 'BE') {
 	)
 );
 
+
+// Add eID dispatcher
 $TYPO3_CONF_VARS['FE']['eID_include'][$_EXTKEY] = 'EXT:opauth/Classes/Utility/EidDispatcher.php';
+// Add form hook
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_userauth.php']['logoff_post_processing'][] = 'Butenko\\Opauth\\UserFunction\\Logoff->logoff';
 ?>
