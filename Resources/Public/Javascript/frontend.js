@@ -15,6 +15,6 @@ $(function() {
 
         //window.reload();
         //var url = '/index.php?eID=opauth&type=21071992&extensionName=Opauth&pluginName=pi1&controllerName=Authentification&actionName=' +  + '&arguments[strategy]=' + el.data('authstrategy');
-        window.location.href = decodeURIComponent('/index.php?' + url);
+        window.location.href = decodeURIComponent('../index.php?' + url);
     });
 });
