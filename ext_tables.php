@@ -24,7 +24,7 @@ ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 
 
 // Overwrite backend login form template
 if (isset($_EXTCONF['enableBE']) && (bool)$_EXTCONF['enableBE']) {
-	$TBE_STYLES['htmlTemplates']['templates/login.html'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
+	$TBE_STYLES['htmlTemplates']['templates/login.html'] = ExtensionManagementUtility::extPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
 	$TBE_STYLES['stylesheet2'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Stylesheets/opauth.css';
 }
 
