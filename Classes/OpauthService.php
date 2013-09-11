@@ -25,7 +25,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	/**
 	 * @var \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication
 	 */
-	public $parentObject;
+	public $pObj;
 
 	/**
 	 * @var string
@@ -68,10 +68,14 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	public $response;
 
 	/**
+	 * @var array
+	 */
+	public $user;
+
+	/**
 	 * CONSTRUCTOR
 	 */
 	public function __construct() {
-		session_start();
 		$this->config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['opauth']);
 
 		$translation = array('{domain}' => $_SERVER['HTTP_HOST']);
@@ -91,15 +95,17 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	 * @param string $subType: Subtype for authentication (either "getUserFE" or "getUserBE")
 	 * @param array $loginData: Login data submitted by user and preprocessed by AbstractUserAuthentication
 	 * @param array $authInfo: Additional TYPO3 information for authentication services (unused here)
-	 * @param \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication $parentObject Calling object
+	 * @param \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication $pObj Calling object
 	 * @return void
 	 */
-	public function initAuth($subType, array $loginData, array $authInfo, \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication &$parentObject) {
+	public function initAuth($subType, array $loginData, array $authInfo, \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication &$pObj) {
 		// Store login and authetication data
+		parent::initAuth($subType, $loginData, $authInfo, $pObj);
+		$this->pObj = &$pObj;
 		$subType = $this->mode;
 		$this->loginData = $loginData;
 		$this->authInfo = $authInfo;
-		$this->parentObject = $parentObject;
+		$this->loginData['status'] = 'login';
 	}
 
 	/**
@@ -107,6 +113,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	 * @return void
 	 */
 	public function responseFromController($response) {
+		$this->login = $response['auth']['info'];
 		$this->response = $response;
 	}
 
@@ -133,6 +140,16 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 		$_SESSION[$this->sessionKey]['currentScope'] = $scope;
 	}
 
+	public function authUser(&$user) {
+		if ($user['credentials']['token']){
+			$userdata = $this->getUser();
+			if (is_array($userdata)){
+				return 200;
+			}
+		}
+		return 100;
+	}
+
 	/**
 	 * Creates return URL for the OAuth. When a user is authenticated by
 	 * the OAuth, the user will be sent to this URL to complete
@@ -153,7 +170,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 			// Notice: 'login_status' parameter name cannot be changed!
 			// It is essential for BE user authentication.
 			$absoluteSiteURL = substr(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), strlen(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST')));
-			$returnURL = $absoluteSiteURL . TYPO3_mainDir . 'sysext/' . $this->extKey . '?login_status=login&';
+			$returnURL = $absoluteSiteURL . TYPO3_mainDir . 'ext/' . $this->extKey . '?login_status=login&';
 		}
 		$returnURL .= 'tx_opauth_location=' . rawurlencode($requestURL) . '&' . 'tx_opauth_mode=finish&' . 'tx_opauth_claimed=' . rawurlencode($claimedIdentifier) . '&' . 'tx_opauth_signature=' . $this->getSignature($claimedIdentifier);
 		return \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($returnURL);
@@ -186,17 +203,6 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 				$username = $this->scope === 'fe' ? $data['email'] : substr($data['email'], 0, strpos($data['email'], '@'));
 				return $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', $this->scope . '_users', "username = '" . $username . "'");
 			}
-		}
-	}
-
-	/**
-	 * @param mixed $user
-	 */
-	public function authUser(&$user) {
-		if ($user['email']) {
-			return 200;
-		} else {
-			return 100;
 		}
 	}
 
