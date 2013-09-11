@@ -66,7 +66,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 */
 	public function callbackAction() {
 		$this->response = $this->opauth->getResponse();
-
 		if (array_key_exists('error', $this->response)) {
 			throw new \TYPO3\CMS\Core\Exception('Authentication error: Opauth returns error auth response.');
 		} else {
@@ -77,6 +76,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 			} else {
 				$this->authService->responseFromController($this->response);
 				$this->authService->getUserInformation();
+				$this->authService->authUser($this->response['auth']);
 				$this->forward('final');
 			}
 		}
