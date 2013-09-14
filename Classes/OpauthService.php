@@ -65,12 +65,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	/**
 	 * @var array
 	 */
-	public $response;
-
-	/**
-	 * @var array
-	 */
-	public $user;
+	public $response = array();
 
 	/**
 	 * CONSTRUCTOR
@@ -113,7 +108,6 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	 * @return void
 	 */
 	public function responseFromController($response) {
-		$this->login = $response['auth']['info'];
 		$this->response = $response;
 	}
 
@@ -148,32 +142,6 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 			}
 		}
 		return 100;
-	}
-
-	/**
-	 * Creates return URL for the OAuth. When a user is authenticated by
-	 * the OAuth, the user will be sent to this URL to complete
-	 * authentication process with the current site. We send it to our script.
-	 *
-	 * @return string Return URL
-	 */
-	protected function getReturnURL() {
-		if ($this->authInfo['loginType'] == 'FE') {
-			// We will use eID to send user back, create session data and
-			// return to the calling page.
-			// Notice: 'pid' and 'logintype' parameter names cannot be changed!
-			// They are essential for FE user authentication.
-			$returnURL = 'index.php?eID=opauth&' . 'pid=' . $this->authInfo['db_user']['checkPidList'] . '&' . 'logintype=login&';
-		} else {
-			// In the Backend we will use dedicated script to create session.
-			// It is much easier for the Backend to manage users.
-			// Notice: 'login_status' parameter name cannot be changed!
-			// It is essential for BE user authentication.
-			$absoluteSiteURL = substr(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL'), strlen(\TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST')));
-			$returnURL = $absoluteSiteURL . TYPO3_mainDir . 'ext/' . $this->extKey . '?login_status=login&';
-		}
-		$returnURL .= 'tx_opauth_location=' . rawurlencode($requestURL) . '&' . 'tx_opauth_mode=finish&' . 'tx_opauth_claimed=' . rawurlencode($claimedIdentifier) . '&' . 'tx_opauth_signature=' . $this->getSignature($claimedIdentifier);
-		return \TYPO3\CMS\Core\Utility\GeneralUtility::locationHeaderUrl($returnURL);
 	}
 
 	/**
@@ -277,17 +245,6 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 			$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'fe_users', 'uid = ' . intval($uid));
 		}
 		$_SESSION[$this->sessionKey]['user']['fe'] = $record;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFinalUrl() {
-		if ($this->scope === 'be') {
-			return str_replace(PATH_site, '', PATH_typo3);
-		} else {
-			return $this->config['finalUrl'];
-		}
 	}
 }
 ?>
