@@ -76,7 +76,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 			} else {
 				$this->authService->responseFromController($this->response);
 				$this->authService->getUserInformation();
-				$this->authService->authUser($this->response['auth']);
 				$this->forward('final');
 			}
 		}
@@ -87,7 +86,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @return void
 	 */
 	public function finalAction() {
-		$finalUrl = $this->authService->getFinalUrl();
 		$this->redirectToUri('typo3/init.php', 0, 303);
 	}
 
