@@ -24,7 +24,7 @@ $_EXTCONF = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY])
 
 if (TYPO3_MODE === 'BE') {
 	//
-	//$TYPO3_CONF_VARS['BE']['loginSecurityLevel'] = 'normal';
+	$TYPO3_CONF_VARS['BE']['loginSecurityLevel'] = 'normal';
 	// AJAX Extbase Dispatcher
 	$TYPO3_CONF_VARS['BE']['AJAX'][$_EXTKEY] = 'Butenko\\Opauth\\Utility\\AjaxDispatcher->initAndDispatch';
 	// Add popup js to user setup module
@@ -42,6 +42,10 @@ if (TYPO3_MODE === 'BE') {
 		'Authentification' => 'authenticate,callback,final',
 	)
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SVCONF']['auth']['setup']['BE_alwaysAuthUser'] = TRUE;
+$GLOBALS['TYPO3_CONF_VARS']['SVCONF']['auth']['setup']['BE_fetchUserIfNoSession'] = TRUE;
+$GLOBALS['TYPO3_CONF_VARS']['SVCONF']['auth']['setup']['FE_fetchUserIfNoSession'] = TRUE;
 
 // Add eID dispatcher
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:opauth/Classes/Utility/EidDispatcher.php';

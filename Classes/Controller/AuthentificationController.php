@@ -1,6 +1,8 @@
 <?php
 namespace Butenko\Opauth\Controller;
 
+
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
@@ -65,17 +67,18 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @return void
 	 */
 	public function callbackAction() {
-		$this->response = $this->opauth->getResponse();
-		if (array_key_exists('error', $this->response)) {
-			throw new \TYPO3\CMS\Core\Exception('Authentication error: Opauth returns error auth response.');
+		$response = $this->opauth->getResponse();
+		if (array_key_exists('error', $response)) {
+			throw new Exception('Authentication error: Opauth returns error auth response.');
 		} else {
-			if (empty($this->response['auth']) || empty($this->response['timestamp']) || empty($this->response['signature']) || empty($this->response['auth']['provider']) || empty($this->response['auth']['uid'])) {
-				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: Missing key auth response components.');
-			} elseif (!$this->opauth->validate(sha1(print_r($this->response['auth'], true)), $this->response['timestamp'], $this->response['signature'], $reason)) {
-				throw new \TYPO3\CMS\Core\Exception('Invalid auth response: '.$reason);
+			if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
+				throw new Exception('Invalid auth response: Missing key auth response components.');
+			} elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
+				throw new Exception('Invalid auth response: '.$reason);
 			} else {
-				$this->authService->responseFromController($this->response);
+				$this->authService->responseFromController($response);
 				$this->authService->getUserInformation();
+				$this->authService->authUser($response['auth']['info']);
 				$this->forward('final');
 			}
 		}
@@ -86,7 +89,10 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @return void
 	 */
 	public function finalAction() {
-		$this->redirectToUri('typo3/init.php', 0, 303);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::cleanOutputBuffers();
+		$backendURL = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . TYPO3_mainDir . 'backend.php';
+		\TYPO3\CMS\Core\Utility\HttpUtility::redirect($backendURL);
+		die();
 	}
 
 }
