@@ -11,7 +11,7 @@ $_EXTCONF = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$_EXTKEY])
 	array(
 		'title' => 'Opauth Authentication',
 		'description' => 'Opauth authentication service for Frontend and Backend',
-		'subtype' => 'getUserFE,authUserFE,getUserBE,authUserBE',
+		'subtype' => 'getUserFE,authUserFE,getUserBE,authUserBE,processLoginDataBE,processLoginDataBE',
 		'available' => TRUE,
 		// Must be higher than for tx_sv_auth (50) or tx_sv_auth will deny request unconditionally
 		'priority' => $_EXTCONF['priority'],
@@ -42,6 +42,9 @@ if (TYPO3_MODE === 'BE') {
 		'Authentification' => 'authenticate,callback,final',
 	)
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SVCONF']['auth']['setup']['BE_alwaysAuthUser'] = TRUE;
+$GLOBALS['TYPO3_CONF_VARS']['SVCONF']['auth']['setup']['BE_fetchUserIfNoSession'] = TRUE;
 
 // Add eID dispatcher
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][$_EXTKEY] = 'EXT:opauth/Classes/Utility/EidDispatcher.php';

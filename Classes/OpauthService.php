@@ -1,11 +1,11 @@
 <?php
 namespace Butenko\Opauth;
 
-use \TYPO3\CMS\Core\Exception;
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 
-class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
+class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 
 	/**
 	 * @var string
@@ -20,7 +20,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	/**
 	 * @var string
 	 */
-	protected $scope = 'fe';
+	protected $scope = 'be';
 
 	/**
 	 * @var \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication
@@ -60,7 +60,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	/**
 	 * @var boolean
 	 */
-	public $writeDevLog = FALSE;
+	public $writeDevLog = TRUE;
 
 	/**
 	 * @var array
@@ -101,7 +101,18 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 		$this->loginData = $loginData;
 		$this->authInfo = $authInfo;
 		$this->loginData['status'] = 'login';
+		$this->authInfo['loginType'] = 'BE';
+		$this->authInfo['security_level'] = 'normal';
 	}
+
+	///**
+	// * @return void
+	// */
+	//public function processLoginData(array &$loginData, $passwordTransmissionStrategy) {
+	//	$loginData = $this->loginData;
+	//	#throw new \TYPO3\CMS\Core\Exception('loginData' . var_dump($loginData));
+	//	return True;
+	//}
 
 	/**
 	 * @param string $response: Response from auth service in controller
@@ -134,13 +145,13 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 		$_SESSION[$this->sessionKey]['currentScope'] = $scope;
 	}
 
-	public function authUser(&$user) {
-		if ($user['credentials']['token']){
-			$userdata = $this->getUser();
-			if (is_array($userdata)){
+	public function authUser(array $user) {
+		#throw new \TYPO3\CMS\Core\Exception('user' . var_dump($user));
+		//if ($this->response['auth']['credentials']['token']){
+			if (is_array($user)){
 				return 200;
 			}
-		}
+		//}
 		return 100;
 	}
 
