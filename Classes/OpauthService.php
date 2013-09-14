@@ -5,7 +5,7 @@ use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 
-class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
+class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 
 	/**
 	 * @var string
