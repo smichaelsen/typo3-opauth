@@ -198,6 +198,13 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 	}
 
 	/**
+	 * @return string with unique password with 16 character
+	 */
+	public function generatePassword() {
+		return substr(sha1($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . (microtime(TRUE) * time())), -16);
+	}
+
+	/**
 	 * @return void
 	 */
 	public function getBackendUserInformation() {
@@ -214,15 +221,16 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 			// fist though, we need to fetch that information.
 			$record = array(
 				'username' => $username,
-				'password' => substr(sha1($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . (microtime(TRUE) * time())), -8),
+				'password' => $this->generatePassword(),
 				'realName' => $userInfo['name'],
 				'email' => $userInfo['email'],
 				'tstamp' => time(),
+				'crdate' => time(),
 				'disable' => '0',
 				'deleted' => '0',
 				'pid' => 0,
-				//'usergroup' => $this->config['addBeUsersToGroups'],
-				'admin' => 1
+				'usergroup' => $this->config['addBeUsersToGroups'],
+				'admin' => $this->config['createAdminBeUsers']
 			);
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery('be_users', $record);
 			$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
@@ -244,14 +252,19 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 				// fist though, we need to fetch that information.
 			$record = array(
 				'username' => $userInfo['email'],
-				'password' => substr(sha1($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'] . (microtime(TRUE) * time())), -8),
+				'password' => $this->generatePassword(),
 				'name' => $userInfo['name'],
 				'email' => $userInfo['email'],
 				'disable' => '0',
 				'deleted' => '0',
 				'pid' => $this->config['storagePid'],
+				'usergroup' => $this->config['addUsersToGroups'],
 				'tstamp' => time(),
+				'crdate' => time(),
 			);
+			if (ExtensionManagementUtility::isLoaded('extbase')) {
+				$record['tx_extbase_type'] = $this->config['recordType'];
+			}
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_users', $record);
 			$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 			$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'fe_users', 'uid = ' . intval($uid));
