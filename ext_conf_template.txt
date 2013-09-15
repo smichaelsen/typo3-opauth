@@ -9,8 +9,17 @@ enableBE = 0
 # cat=settings; type=boolean; label=Frontend: Enable OAuth2 authentication for the frontend.
 enableFE = 0
 
-# cat=settings; type=string; label=List of enabled strategies
-enableStrategies = Facebook,Google,Twitter
+# cat=settings; type=boolean; label=Create admin BE users: When creating BE user records the "admin" field will be enabled if this option is enabled.
+createAdminBeUsers = 0
+
+# cat=settings; type=string; label=Assign FE groups: When creating a fe_user record, assign these fe_groups to that user. REQUIRED.
+addUsersToGroups =
+
+# cat=settings; type=string; label=Assign BE groups: When creating a be_user record, assign these be_groups to that user. REQUIRED unless "createAdminBeUsers" is enabled, or the BE user will not be able to use the backend.
+addBeUsersToGroups =
+
+# cat=settings; type=string; label=Extbase integration: Create Extbase-type fe_user records. Fill this with the desired object type for created fe_user records. Naturally this requires Extbase to be loaded!
+recordType = Tx_Extbase_Domain_Model_FrontendUser
 
 # cat=settings; type=int+; label=Auth Priority: maximum 100
 priority = 100
