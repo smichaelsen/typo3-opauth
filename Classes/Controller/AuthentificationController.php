@@ -18,12 +18,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	protected $authService;
 
 	/**
-	 * @var array
-	 */
-	protected $response = array();
-
-	/**
-	 * @param \Butenko\Opauth\OpauthService $opauthService
+	 * @param \Butenko\Opauth\OpauthService $authService
 	 */
 	public function injectAuthService(\Butenko\Opauth\OpauthService $authService) {
 		$this->authService = $authService;
@@ -41,7 +36,7 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @param integer $errorCode
 	 */
 	public function errorAction($errorCode) {
-		throw new \TYPO3\CMS\Core\Exception('Error action, with code: ' . $errorCode);
+		throw new Exception('Error action, with code: ' . $errorCode);
 	}
 
 	/**
@@ -69,16 +64,16 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	public function callbackAction() {
 		$response = $this->opauth->getResponse();
 		if (array_key_exists('error', $response)) {
-			throw new Exception('Authentication error: Opauth returns error auth response.');
+			$error = $response['error'];
+			throw new Exception('Authentication error: Opauth returns error auth response.'.'code: '.$error['code'].' and message '.$error['message']);
 		} else {
 			if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
 				throw new Exception('Invalid auth response: Missing key auth response components.');
 			} elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
-				throw new Exception('Invalid auth response: '.$reason);
+				throw new Exception('Invalid auth response');
 			} else {
 				$this->authService->responseFromController($response);
 				$this->authService->getUserInformation();
-				$this->authService->authUser($response['auth']['info']);
 				$this->forward('final');
 			}
 		}
