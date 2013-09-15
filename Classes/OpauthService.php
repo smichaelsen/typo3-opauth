@@ -65,7 +65,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 	/**
 	 * @var array
 	 */
-	public $response = array();
+	public $response;
 
 	/**
 	 * CONSTRUCTOR
@@ -96,24 +96,13 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 	 */
 	public function initAuth($subType, array $loginData, array $authInfo, \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication &$pObj) {
 		// Store login and authetication data
-		parent::initAuth($subType, $loginData, $authInfo, $pObj);
-		$this->pObj = &$pObj;
+		$this->mode = $this->scope === 'be' ? 'getUserBE' : 'getUserFE';
 		$subType = $this->mode;
 		$this->loginData = $loginData;
 		$this->authInfo = $authInfo;
-		$this->loginData['status'] = 'login';
-		$this->authInfo['loginType'] = 'BE';
-		$this->authInfo['security_level'] = 'normal';
+		$this->pObj = &$pObj;
+		$this->setScope(strtolower($_SESSION[$this->sessionKey]['currentScope'] ? $_SESSION[$this->sessionKey]['currentScope'] : TYPO3_MODE));
 	}
-
-	///**
-	// * @return void
-	// */
-	//public function processLoginData(array &$loginData, $passwordTransmissionStrategy) {
-	//	$loginData = $this->loginData;
-	//	#throw new \TYPO3\CMS\Core\Exception('loginData' . var_dump($loginData));
-	//	return True;
-	//}
 
 	/**
 	 * @param string $response: Response from auth service in controller
@@ -146,8 +135,7 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 		$_SESSION[$this->sessionKey]['currentScope'] = $scope;
 	}
 
-	public function authUser(array $user) {
-		#throw new \TYPO3\CMS\Core\Exception('user' . var_dump($user));
+	public function authUser(array &$user) {
 		//if ($this->response['auth']['credentials']['token']){
 			if (is_array($user)){
 				return 200;
@@ -209,9 +197,16 @@ class OpauthService extends \TYPO3\CMS\Sv\AuthenticationService {
 	 */
 	public function getBackendUserInformation() {
 		$userInfo = $this->response['auth']['info'];
-		$username = substr($userInfo['email'], 0, strpos($userInfo['email'], '@'));
-		$userInfo['email'] = filter_var($userInfo['email'], FILTER_SANITIZE_EMAIL);
-		$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'be_users', "email = '" . $userInfo['email'] . "'");
+		$provider = strtolower($this->response['auth']['provider']);
+		if ($provider === 'twitter'){
+			$username = $userInfo['nickname'];
+			$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'be_users', "username = '" . $username . "'");
+		} else {
+			$username = substr($userInfo['email'], 0, strpos($userInfo['email'], '@'));
+			$userInfo['email'] = filter_var($userInfo['email'], FILTER_SANITIZE_EMAIL);
+			$record = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', 'be_users', "email = '" . $userInfo['email'] . "'");
+		}
+
 		if ($record['disable'] > 0 || $record['deleted'] > 0) {
 			return;
 		}
