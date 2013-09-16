@@ -9,6 +9,11 @@ require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('opauth
 class Opauth extends \Opauth implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $extKey = 'opauth';
+
+	/**
 	 * @param string $strategy
 	 */
 	public function setStrategy($strategy) {
@@ -27,8 +32,8 @@ class Opauth extends \Opauth implements \TYPO3\CMS\Core\SingletonInterface {
 		switch ($this->env['callback_transport']) {
 			case 'session':
 				session_start();
-				$response = $_SESSION['opauth'];
-				unset($_SESSION['opauth']);
+				$response = $_SESSION[$extKey];
+				unset($_SESSION[$extKey]);
 				break;
 			case 'post':
 				$response = unserialize(base64_decode($_POST['opauth']));
