@@ -12,6 +12,9 @@ enableFE = 0
 # cat=settings; type=boolean; label=Create admin BE users: When creating BE user records the "admin" field will be enabled if this option is enabled.
 createAdminBeUsers = 0
 
+# cat=settings; type=boolean; label=Create admin BE users: When creating BE user records the "admin" field will be enabled if this option is enabled.
+createFrontendUsers = 1
+
 # cat=settings; type=string; label=Assign FE groups: When creating a fe_user record, assign these fe_groups to that user. REQUIRED.
 addUsersToGroups =
 
