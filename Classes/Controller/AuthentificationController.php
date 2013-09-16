@@ -84,10 +84,13 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 	 * @return void
 	 */
 	public function finalAction() {
-		\TYPO3\CMS\Core\Utility\GeneralUtility::cleanOutputBuffers();
-		$backendURL = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . TYPO3_mainDir . 'backend.php';
-		\TYPO3\CMS\Core\Utility\HttpUtility::redirect($backendURL);
-		die();
+		$scope = $this->authService->getScope();
+		if ($scope === 'fe') {
+			$redirectURL = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+		} elseif ($scope === 'be') {
+			$redirectURL = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . TYPO3_mainDir . 'backend.php';
+		}
+		\TYPO3\CMS\Core\Utility\HttpUtility::redirect($redirectURL);
 	}
 
 }
