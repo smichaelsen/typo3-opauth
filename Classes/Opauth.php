@@ -32,8 +32,8 @@ class Opauth extends \Opauth implements \TYPO3\CMS\Core\SingletonInterface {
 		switch ($this->env['callback_transport']) {
 			case 'session':
 				session_start();
-				$response = $_SESSION[$extKey];
-				unset($_SESSION[$extKey]);
+				$response = $_SESSION[$this->extKey];
+				unset($_SESSION[$this->extKey]);
 				break;
 			case 'post':
 				$response = unserialize(base64_decode($_POST['opauth']));
