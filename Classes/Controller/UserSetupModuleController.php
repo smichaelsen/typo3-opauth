@@ -6,6 +6,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class UserSetupModuleController {
 
 	/**
+	 * @var string
+	 */
+	protected $extKey = 'opauth';
+
+	/**
 	 * @var \TYPO3\CMS\Extbase\Object\ObjectManager
 	 */
 	protected $objectManager;
@@ -34,17 +39,16 @@ class UserSetupModuleController {
 	public function renderFieldsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
 		$content = '';
 		$strategiesToCheck = $this->extensionConfiguration['enableStrategies'];
-		$connectedStrategies = $GLOBALS['BE_USER']->uc['connectedStrategies'];
 
 		$strategiesToCheckArray = array_map('strtolower', \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $strategiesToCheck));
 		foreach($strategiesToCheckArray as $strategy) {
 			if ($this->extensionConfiguration[$strategy . 'Enable']) {
 				$content .= '<h3>' . ucfirst($strategy) . '</h3>';
 
-				if(array_key_exists($strategy, $connectedStrategies)) {
-					$content .= '<span style="color: green;">Already connected</span> [<a href="#" data-action="disconnect" data-authstrategy="' . $strategy . '">disconnect</a>]';
+				if(isset($GLOBALS['BE_USER']->uc[$this->extKey][$strategy])) {
+					$content .= '<span style="color: green;">Successful connected</span> [<a href="#" data-action="disconnect" data-scope="be" data-authstrategy="' . $strategy . '">disconnect</a>]';
 				} else {
-					$content .= '<a href="#" data-action="authenticate" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
+					$content .= '<a href="#" data-action="authenticate" data-scope="be" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
 				}
 			}
 		}
