@@ -20,6 +20,33 @@ git clone https://github.com/thedarki/typo3-opauth.git opauth
 
 In future...
 
+#Configuration
+For able auth with social network we need to configure his settings.
+
+## Main Settings
+1. Click on checkbox for enable it for Frontend or Backend or both.
+2. By default creating new user in backend is disabled. For enable it click on **createAdminBeUsers**
+3. For frontend user needed to select storagePid.
+
+### Facebook:
+1. Open tab with facebook settings.
+2. Click on checkbox for enable it.
+3. Open [https://developers.facebook.com/apps](https://developers.facebook.com/apps)
+4. Create you app
+5. Copy **App-Id** and paste into **App Id _[facebook.facebookAppId]_**
+6. Copy **App-Secret** into **App Secret Token _[facebook.facebookAppSecret]_**
+7. Click 'Save'
+
+### Twitter:
+1. Open tab with twitter settings.
+2. Click on checkbox for enable it.
+3. Open [https://dev.twitter.com/apps](https://dev.twitter.com/apps)
+4. Click to [Create a new application](https://dev.twitter.com/apps/new)
+5. Copy **Consumer key** and paste into **Consumer Key _[twitter.twitterConsumerKey]_**
+6. Copy **Consumer secret** into **Consumer Secret _[twitter.twitterConsumerSecret]_**
+7. Click 'Save'
+
+
 #Currently Supported
 
 * Facebook
