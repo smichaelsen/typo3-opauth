@@ -7,7 +7,7 @@
 enableBE = 0
 
 # cat=settings; type=boolean; label=Frontend: Enable OAuth2 authentication for the frontend.
-enableFE = 0
+enableFE = 1
 
 # cat=settings; type=boolean; label=Create admin BE users: When creating BE user records the "admin" field will be enabled if this option is enabled.
 createAdminBeUsers = 0
