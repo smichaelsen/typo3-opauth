@@ -24,7 +24,7 @@ In future...
 For able auth with social network we need to configure his settings.
 
 ## Main Settings
-1. Click on checkbox for enable it for Frontend or Backend or both.
+1. Click on checkbox for enable it for **Frontend** or **Backend** or both.
 2. By default creating new user in backend is disabled. For enable it click on **createAdminBeUsers**
 3. For frontend user needed to select storagePid.
 
