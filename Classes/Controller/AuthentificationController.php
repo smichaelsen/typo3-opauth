@@ -101,13 +101,6 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 		} else {
 			$arguments['strategy'] = $strategy;
 			$this->forward('authenticate', NULL, NULL, $arguments);
-			if($provider){
-				if (!is_array($GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy])) {
-					$GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy] = $provider;
-					$GLOBALS['BE_USER']->overrideUC();
-					$GLOBALS['BE_USER']->writeUC();
-				}
-			}
 		}
 		$this->closePopup();
 	}
