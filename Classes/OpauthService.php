@@ -103,8 +103,18 @@ class OpauthService extends \TYPO3\CMS\Sv\AbstractAuthenticationService {
 	 * @return void
 	 */
 	public function responseFromController($response) {
-		// Save response to $_SESSION
-		$this->response = $_SESSION[$this->extKey]['response'] = $response;
+		$this->response = $response;
+		$this->saveResponseToSession($response);
+	}
+
+	/**
+	 * Save response to $_SESSION
+	 * @param string $response
+	 * @return void
+	 */
+	public function saveResponseToSession($response) {
+		$provider = strtolower($response['auth']['provider']);
+		$_SESSION[$this->extKey]['response'][$provider] = $response['auth'];
 	}
 
 	/**
