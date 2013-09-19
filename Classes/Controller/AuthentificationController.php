@@ -8,6 +8,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
+	 * @var string
+	 */
+	protected $extKey = 'opauth';
+
+	/**
 	 * @var \Butenko\Opauth\Opauth
 	 */
 	protected $opauth;
@@ -77,6 +82,56 @@ class AuthentificationController extends \TYPO3\CMS\Extbase\Mvc\Controller\Actio
 				$this->forward('final');
 			}
 		}
+	}
+
+	/**
+	 * Save social data to UC (User Config)
+	 * @param string $strategy
+	 * @return void
+	 */
+	public function saveToUCAction($strategy) {
+		$provider = $_SESSION[$this->extKey]['response'][$strategy];
+		if($provider){
+			$strategy = strtolower($strategy);
+			if (!is_array($GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy])) {
+				$GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy] = $provider;
+				$GLOBALS['BE_USER']->overrideUC();
+				$GLOBALS['BE_USER']->writeUC();
+			}
+		} else {
+			$arguments['strategy'] = $strategy;
+			$this->forward('authenticate', NULL, NULL, $arguments);
+			if($provider){
+				if (!is_array($GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy])) {
+					$GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy] = $provider;
+					$GLOBALS['BE_USER']->overrideUC();
+					$GLOBALS['BE_USER']->writeUC();
+				}
+			}
+		}
+		$this->closePopup();
+	}
+
+	/**
+	 * Remove provider social data from UC (User Config)
+	 * @param string $strategy
+	 * @return void
+	 */
+	public function removeFromUCAction($strategy) {
+		if (isset($GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy])) {
+			unset($GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy]);
+			$GLOBALS['BE_USER']->overrideUC();
+			$GLOBALS['BE_USER']->writeUC();
+		}
+		$this->closePopup();
+	}
+
+	/**
+	 * @return void
+	 */
+	public function closePopup() {
+		echo '<html><head><title>Authentication success</title></head><body onload="opener.console.log(\'hi, im the popup and im finished\');window.close();"></body></html>';
+		die();
 	}
 
 	/**
