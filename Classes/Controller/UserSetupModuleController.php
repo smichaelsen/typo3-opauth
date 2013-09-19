@@ -1,6 +1,7 @@
 <?php
 namespace Butenko\Opauth\Controller;
 
+use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 class UserSetupModuleController {
@@ -38,17 +39,17 @@ class UserSetupModuleController {
 	 */
 	public function renderFieldsAction(array $parameters, \TYPO3\CMS\Setup\Controller\SetupModuleController $parent) {
 		$content = '';
-		$strategiesToCheck = $this->extensionConfiguration['enableStrategies'];
+		$strategiesToCheck = 'Facebook, Twitter, Google';
 
 		$strategiesToCheckArray = array_map('strtolower', \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $strategiesToCheck));
 		foreach($strategiesToCheckArray as $strategy) {
 			if ($this->extensionConfiguration[$strategy . 'Enable']) {
 				$content .= '<h3>' . ucfirst($strategy) . '</h3>';
 
-				if(isset($GLOBALS['BE_USER']->uc[$this->extKey][$strategy])) {
-					$content .= '<span style="color: green;">Successful connected</span> [<a href="#" data-action="disconnect" data-scope="be" data-authstrategy="' . $strategy . '">disconnect</a>]';
+				if(isset($GLOBALS['BE_USER']->uc[$this->extKey]['providers'][$strategy])) {
+					$content .= '<span style="color: green;">Successfully connected</span> [<a href="#" data-action="removeFromUC" data-scope="be" data-authstrategy="' . $strategy . '">disconnect</a>]';
 				} else {
-					$content .= '<a href="#" data-action="authenticate" data-scope="be" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
+					$content .= '<a href="#" data-action="saveToUC" data-scope="be" data-authstrategy="' . $strategy . '">Authenticate with ' . ucfirst($strategy) .'</a>';
 				}
 			}
 		}
