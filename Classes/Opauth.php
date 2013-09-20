@@ -36,10 +36,10 @@ class Opauth extends \Opauth implements \TYPO3\CMS\Core\SingletonInterface {
 				unset($_SESSION[$this->extKey]);
 				break;
 			case 'post':
-				$response = unserialize(base64_decode($_POST['opauth']));
+				$response = unserialize(base64_decode($_POST[$this->extKey]));
 				break;
 			case 'get':
-				$response = unserialize(base64_decode($_GET['opauth']));
+				$response = unserialize(base64_decode($_GET[$this->extKey]));
 				break;
 			default:
 				throw new \TYPO3\CMS\Core\Exception('Unsupported callback_transport: ' . htmlspecialchars($this->env['callback_transport']));
