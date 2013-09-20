@@ -44,6 +44,8 @@ For able auth with social network we need to configure his settings.
 4. Click to [Create a new application](https://dev.twitter.com/apps/new)
 5. Copy **Consumer key** and paste into **Consumer Key _[twitter.twitterConsumerKey]_**
 6. Copy **Consumer secret** into **Consumer Secret _[twitter.twitterConsumerSecret]_**
+7. Add any callback url into **Application Type** -> **Callback URL**. Example: http://your.domain/oauth_callback
+8. Click on checkbox _Allow this application to be used to Sign in with Twitter_
 7. Click 'Save'
 
 
