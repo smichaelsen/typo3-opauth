@@ -15,5 +15,9 @@ OpauthEndpoint {
         pluginName = Auth
     }
 }
-
+plugin.opauth.view {
+    templateRootPath = {$plugin.opauth.view.templateRootPath}
+    partialRootPath = {$plugin.opauth.view.partialRootPath}
+    layoutRootPath = {$plugin.opauth.view.layoutRootPath}
+}
 PAGE.includeJS = EXT:opauth/Resources/Public/Javascript/frontend.js
