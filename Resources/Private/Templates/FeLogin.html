@@ -70,7 +70,18 @@
 	<!--###PERMALOGIN_VALID###-->
 
 	<div>
-		<input type="submit" name="btn-submit" value="###LOGIN_LABEL### +1" />
+		<input type="submit" name="btn-submit" value="###LOGIN_LABEL###" />
+	</div>
+
+	<script src="../typo3/contrib/jquery/jquery-1.8.2.js"></script>
+	<script src="../typo3conf/ext/opauth/Resources/Public/Javascript/frontend.js"></script>
+	<div>
+		<h4>Connect with</h4>
+		<div>
+			<a href="#" data-action="authenticate" data-scope="fe" data-authstrategy="facebook">Facebook</a>
+			<a href="#" data-action="authenticate" data-scope="fe" data-authstrategy="twitter">Twitter</a>
+			<a href="#" data-action="authenticate" data-scope="fe" data-authstrategy="google">Google</a>
+		</div>
 	</div>
 
 	<div class="felogin-hidden">
@@ -109,8 +120,8 @@
 <form action="###ACTION_URI###" target="_top" method="post">
 	<div>
 		<label>###USERNAME_LABEL###</label>
-	 	###USERNAME###
-    </div>
+		###USERNAME###
+	</div>
 	<div>
 		<input type="submit" name="submit" value="###LOGOUT_LABEL###" />
 	 </div>
@@ -138,7 +149,7 @@
 
 <!-- ###FORGOT_FORM### -->
 <form action="###ACTION_URI###" method="post">
-    <div class="felogin-hidden">
+	<div class="felogin-hidden">
 		<input type="hidden" name="tx_felogin_pi1[forgot_hash]" value="###FORGOTHASH###" />
 	</div>
 	<div>
