@@ -1,7 +1,12 @@
 <?php
-namespace Butenko\Opauth\Utility;
+namespace Smichaelsen\Opauth\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Core\Bootstrap;
+use TYPO3\CMS\Extbase\Mvc\Dispatcher;
+use TYPO3\CMS\Extbase\Mvc\Web\Request;
+use TYPO3\CMS\Extbase\Mvc\Web\Response;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 /**
  * based on the AjaxDispatcher of EXT:pt_extbase, so credits to Daniel Lienert
@@ -11,7 +16,7 @@ class AjaxDispatcher {
 	/**
 	 * @var string
 	 */
-	protected $vendorName = 'Butenko';
+	protected $vendorName = 'Smichaelsen';
 
 	/**
 	 * @var string
@@ -64,17 +69,14 @@ class AjaxDispatcher {
 			'extensionName' => $this->extensionName,
 			'pluginName' => $this->pluginName
 		);
-		/** @var $bootstrap \TYPO3\CMS\Extbase\Core\Bootstrap */
-		$bootstrap = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Core\\Bootstrap');
+		$bootstrap = GeneralUtility::makeInstance(Bootstrap::class);
 		$bootstrap->initialize($configuration);
 
-		$this->objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+		$this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 
 		$request = $this->buildRequest();
-		/** @var $response \TYPO3\CMS\Extbase\Mvc\Web\Response */
-		$response = $this->objectManager->create('TYPO3\\CMS\\Extbase\\Mvc\\Web\\Response');
-		/** @var $dispatcher \TYPO3\CMS\Extbase\Mvc\Dispatcher */
-		$dispatcher = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Mvc\\Dispatcher');
+		$response = $this->objectManager->get(Response::class);
+		$dispatcher = $this->objectManager->get(Dispatcher::class);
 		$dispatcher->dispatch($request, $response);
 
 		$response->sendHeaders();
@@ -114,8 +116,7 @@ class AjaxDispatcher {
 	 * @return \TYPO3\CMS\Extbase\Mvc\Web\Request
 	 */
 	protected function buildRequest() {
-		/** @var $request \TYPO3\CMS\Extbase\Mvc\Web\Request */
-		$request = $this->objectManager->create('TYPO3\\CMS\\Extbase\\Mvc\\Web\\Request');
+		$request = $this->objectManager->get(Request::class);
 		$request->setControllerExtensionName($this->extensionName);
 		$request->setPluginName($this->pluginName);
 		$request->setControllerName($this->controllerName);
@@ -126,5 +127,3 @@ class AjaxDispatcher {
 	}
 
 }
-
-?>

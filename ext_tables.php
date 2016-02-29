@@ -1,5 +1,4 @@
 <?php
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 $_EXTCONF = unserialize($TYPO3_CONF_VARS['EXT']['extConf'][$_EXTKEY]);
 
@@ -8,10 +7,10 @@ $GLOBALS['TYPO3_USER_SETTINGS']['columns']['tx_opauth_strategies'] = array(
 	'type' => 'user',
 	'table' => 'be_users',
 	'label' => 'Authentification Services',
-	'userFunc' => 'Butenko\\Opauth\\Controller\\UserSetupModuleController->renderFieldsAction',
+	'userFunc' => \Smichaelsen\Opauth\Controller\UserSetupModuleController::class . '->renderFieldsAction',
 );
-ExtensionManagementUtility::addFieldsToUserSettings('--div--;Authentification Services,tx_opauth_strategies');
-ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Opauth');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToUserSettings('--div--;Authentification Services,tx_opauth_strategies');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Opauth');
 
 /**
  * Register as backend plugin
@@ -24,9 +23,9 @@ ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 
 
 // Overwrite backend login form template
 if (isset($_EXTCONF['enableBE']) && (bool)$_EXTCONF['enableBE']) {
-	$TBE_STYLES['htmlTemplates']['templates/login.html'] = ExtensionManagementUtility::extPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
-	$TBE_STYLES['htmlTemplates']['EXT:backend/Resources/Private/Templates/login.html'] = ExtensionManagementUtility::extPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
-	$TBE_STYLES['stylesheet2'] = ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Stylesheets/opauth.css';
+	$TBE_STYLES['htmlTemplates']['templates/login.html'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
+	$TBE_STYLES['htmlTemplates']['EXT:backend/Resources/Private/Templates/login.html'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($_EXTKEY) . 'Resources/Private/Templates/Login.html';
+	$TBE_STYLES['stylesheet2'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Stylesheets/opauth.css';
 }
 
 ?>

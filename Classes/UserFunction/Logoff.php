@@ -1,22 +1,27 @@
 <?php
-namespace Butenko\Opauth\UserFunction;
+namespace Smichaelsen\Opauth\UserFunction;
+
+use Smichaelsen\Opauth\OpauthService;
+use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 
 class Logoff {
 
     /**
-     * @param mixed $params
-     * @param mixed $reference
+     * @param array $params
+     * @param AbstractUserAuthentication $reference
      */
-    public function logoff($params, $reference) {
-        /** @var \TYPO3\CMS\Extbase\Object\ObjectManager $objectManager  */
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
+    public function logoff($params, AbstractUserAuthentication $reference) {
 
-        /** @var $authService \Butenko\Opauth\OpauthService */
-        $authService = $objectManager->get('Butenko\\Opauth\\OpauthService');
+        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+
+        $authService = $objectManager->get(OpauthService::class);
         $requestedFile = basename($_SERVER['REQUEST_URI']);
         $referer = basename($_SERVER['HTTP_REFERER']);
         if ($requestedFile === 'logout.php' || $referer === 'logout.php' || $referer === 'backend.php') {
-            if ($reference instanceof \TYPO3\CMS\Core\Authentication\BackendUserAuthentication === TRUE) {
+            if ($reference instanceof BackendUserAuthentication === TRUE) {
                 $authService->setScope('be');
                 $authService->logoff();
             }

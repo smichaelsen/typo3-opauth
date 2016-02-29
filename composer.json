@@ -1,9 +1,9 @@
 {
-    "name": "smichaelsen/typo3-opauth",
+    "name": "smichaelsen/opauth",
     "type": "typo3-cms-extension",
     "autoload": {
         "psr-4": {
-            "T3SEO\\Opauth\\": "Classes/"
+            "Smichaelsen\\Opauth\\": "Classes/"
         }
     }
 }
