@@ -1,6 +1,10 @@
 {
     "name": "smichaelsen/opauth",
     "type": "typo3-cms-extension",
+    "require": {
+        "claromentis/opauth": "1.0.*",
+        "claromentis/opauth-twitter": "*"
+    },
     "autoload": {
         "psr-4": {
             "Smichaelsen\\Opauth\\": "Classes/"
