@@ -1,0 +1,11 @@
+## LOGIN BOX
+plugin.opauth {
+    view {
+        # cat=plugin.opauth/file; type=string; label=Path to template root (FE)
+        templateFile = EXT:opauth/Resources/Private/Templates/
+        # cat=plugin.opauth/file; type=string; label=Path to template partials (FE)
+        partialRootPath = EXT:opauth/Resources/Private/Partials/
+        # cat=plugin.opauth/file; type=string; label=Path to template layouts (FE)
+        layoutRootPath = EXT:opauth/Resources/Private/Layouts/
+    }
+}

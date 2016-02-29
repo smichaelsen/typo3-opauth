@@ -1,0 +1,23 @@
+OpauthEndpoint = PAGE
+OpauthEndpoint {
+    typeNum = 21071992
+    config {
+        no_cache = 1
+        disableAllHeaderCode = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+    }
+
+    21071992 = USER
+    21071992 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = Opauth
+        pluginName = Auth
+    }
+}
+plugin.opauth.view {
+    templateRootPath = {$plugin.opauth.view.templateRootPath}
+    partialRootPath = {$plugin.opauth.view.partialRootPath}
+    layoutRootPath = {$plugin.opauth.view.layoutRootPath}
+}
+PAGE.includeJS = EXT:opauth/Resources/Public/Javascript/frontend.js

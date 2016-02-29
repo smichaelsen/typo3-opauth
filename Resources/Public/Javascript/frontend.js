@@ -2,7 +2,9 @@ jQuery(function() {
 	jQuery('[data-authstrategy]').click(function() {
 		var el = jQuery(this);
 		var url = jQuery.param({
-			ajaxID: "opauth",
+			eID: "opauth",
+			extensionName: "Opauth",
+			logintype: "login",
 			pluginName: "Auth",
 			controllerName: "Authentification",
 			actionName: el.data('action'),
@@ -12,10 +14,6 @@ jQuery(function() {
 			}
 		});
 
-		var authpopup = window.open(
-			decodeURIComponent('ajax.php?'+url),
-			'Authenticate with ' + el.data('authstrategy'),
-			'width=640,height=480,resizable=yes'
-		)
+		window.location.href = decodeURIComponent('../index.php?'+url);
 	});
 });

@@ -1,24 +1,63 @@
+# customsubcategory=settings=Settings
 # customsubcategory=facebook=Facebook
 # customsubcategory=google=Google
 # customsubcategory=twitter=Twitter
 
-# cat=facebook; type=boolean; label=Enable Oauth via Facebook
+# cat=settings; type=boolean; label=Backend: Enable OAuth2 authentication for the backend.
+enableBE = 0
+
+# cat=settings; type=boolean; label=Frontend: Enable OAuth2 authentication for the frontend.
+enableFE = 1
+
+# cat=settings; type=boolean; label=Create admin BE users: When creating BE user records the "admin" field will be enabled if this option is enabled.
+createAdminBeUsers = 0
+
+# cat=settings; type=boolean; label=Create FE users.
+createFrontendUsers = 1
+
+# cat=settings; type=string; label=Assign FE groups: When creating a fe_user record, assign these fe_groups to that user. REQUIRED.
+addUsersToGroups = Opauth
+
+# cat=settings; type=string; label=Assign BE groups: When creating a be_user record, assign these be_groups to that user. REQUIRED unless "createAdminBeUsers" is enabled, or the BE user will not be able to use the backend.
+addBeUsersToGroups = Opauth
+
+# cat=settings; type=string; label=Extbase integration: Create Extbase-type fe_user records. Fill this with the desired object type for created fe_user records. Naturally this requires Extbase to be loaded!
+recordType = Tx_Extbase_Domain_Model_FrontendUser
+
+# cat=settings; type=int+; label=Auth Priority: maximum 100
+priority = 100
+
+# cat=settings; type=int+; label=Storage Pid: Storage Folder for Frontend Users
+storagePid = 0
+
+# cat=settings; type=string; label=Callback Transport: Available: session, post, get. Read more https://github.com/opauth/opauth/wiki/Opauth-configuration
+callbackTransport = post
+
+# cat=settings; type=string; label=Callback address: Must match the URL registered with returnUrl. Note that the typeNum comes from Configuration/TypoScript/setup.txt which must be included as static template.
+returnUrl = http://{domain}/?type=21071992
+
+# cat=settings; type=boolean; label=Enable Debug Mode.
+enableDebug = 0
+
+# cat=facebook; type=boolean; label=Enable OAuth2 via Facebook
 facebookEnable = 0
 # cat=facebook; type=string; label=App Id
 facebookAppId =
 # cat=facebook; type=string; label=Secret App Token
 facebookAppSecret =
+# cat=facebook; type=string; label=Scope
+facebookScope = email
 
-# cat=google; type=boolean; label=Enable Oauth via Google
+# cat=google; type=boolean; label=Enable OAuth2 via Google
 googleEnable = 0
-# cat=google; type=string; label=App Id
-googleAppId =
-# cat=google; type=string; label=Secret App Token
-googleAppSecret =
+# cat=google; type=string; label=Client Id
+googleClientId =
+# cat=google; type=string; label=Client App Secret
+googleClientSecret =
 
-# cat=twitter; type=boolean; label=Enable Oauth via Twitter
+# cat=twitter; type=boolean; label=Enable OAuth2 via Twitter
 twitterEnable = 0
-# cat=twitter; type=string; label=App Id
-twitterAppId =
-# cat=twitter; type=string; label=Secret App Token
-twitterAppSecret =
+# cat=twitter; type=string; label=Consumer Key
+twitterConsumerKey =
+# cat=twitter; type=string; label=Consumer Secret
+twitterConsumerSecret =

@@ -1,5 +1,5 @@
 <?php
-namespace T3SEO\Opauth\Utility;
+namespace Butenko\Opauth\Utility;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -11,7 +11,7 @@ class AjaxDispatcher {
 	/**
 	 * @var string
 	 */
-	protected $vendorName = 'T3SEO';
+	protected $vendorName = 'Butenko';
 
 	/**
 	 * @var string
@@ -102,7 +102,7 @@ class AjaxDispatcher {
 	 *
 	 */
 	protected function setRequestArgumentsFromGetPost() {
-		$validArguments = GeneralUtility::trimExplode(',', 'extensionName, pluginName, controllerName, actionName, arguments, vendorName');
+		$validArguments = GeneralUtility::trimExplode(',', 'extensionName, pluginName, controllerName, actionName, arguments, vendorName, type');
 		foreach ($validArguments as $argument) {
 			if (GeneralUtility::_GP($argument) !== NULL) {
 				$this->requestArguments[$argument] = GeneralUtility::_GP($argument);
